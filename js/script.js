@@ -121,7 +121,7 @@ window.addEventListener("DOMContentLoaded", () => {
         modal.classList.add("hide");
         modal.classList.remove("show");
         // modal.classList.toggle("show");
-        document.body.style.overflow = ""; // При клике в темное пространство закрывает модальное окно
+        document.body.style.overflow = ""; // Корректный скролл
     }
 
     modalCloseBtn.addEventListener("click", closeModal());
