@@ -245,29 +245,38 @@ window.addEventListener("DOMContentLoaded", () => {
             // form.append(statusMessage); // Баг в нижнем модальном окне со спиннером (сдвигаются елементы)
             form.insertAdjacentElement("afterend", statusMessage); // Появляется после формы (все работает хорошо)
 
-            const request = new XMLHttpRequest();
-            request.open("POST", "server.php");
+            // const request = new XMLHttpRequest();
+            // request.open("POST", "server.php");
 
             // request.setRequestHeader("Content-type", "multipart/form-data"); // Из за того что у нас есть XMLHttpRequest заголовок уже создан автоматически и из за multipart/form-data возникает ошибка
-            request.setRequestHeader("Content-type", "application/json");
+            // request.setRequestHeader("Content-type", "application/json");
             const formData = new FormData(form);
 
-            // const object = {};
-            // formData.forEach(function(value, key){
-            //     object[key] = value;
-            // });
+            const object = {};
+            formData.forEach(function(value, key){
+                object[key] = value;
+            });
 
-            // const json = JSON.stringify(object);
-
-            fetch("server.php", {
+            fetch("server.php", { // если promise попадает на ошибку связанную с http протоколом, то он не выкенет reject, он выполнит resolve
                 method: "POST",
                 headers: {
                     "Content-type": "application/json"
                 },
-                body: formData
+                body: JSON.stringify(object)
             })
+            .then(data => data.text())
+            .then(data => {
+                console.log(data);
+                showThanksModal(message.success);
+                form.reset();
+                statusMessage.remove();
+            }).catch(() => {
+                showThanksModal(modal.failure);
+            }).finally(() => {
+                form.reset();
+            });
 
-            // request.send(json); // formData
+            // request.send(json); // formData // для XMLHttpRequest
             
             // request.addEventListener("load", () => {
             //     if (request.status === 200) {
@@ -306,13 +315,13 @@ window.addEventListener("DOMContentLoaded", () => {
         }, 4000);
     }
 
-    fetch("https://jsonplaceholder.typicode.com/posts", {
-        mehtod: "POST",
-        body: JSON.stringify({name: "Alex"}),
-        headers: {
-            "Content-type": "application/json"
-        }
-    })
-    .then(response => response.json())
-    .then(json => console.log(json));
+    // fetch("https://jsonplaceholder.typicode.com/posts", {
+    //     method: "POST",
+    //     body: JSON.stringify({name: "Alex"}),
+    //     headers: {
+    //         "Content-type": "application/json"
+    //     }
+    // })
+    // .then(response => response.json())
+    // .then(json => console.log(json));
 });
