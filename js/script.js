@@ -232,6 +232,18 @@ window.addEventListener("DOMContentLoaded", () => {
         postData(item);
     });
 
+    const postData = async (url, data) => {
+        const res = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: data
+        });
+
+        return await res.json();
+    }
+
     function postData(form) {
         form.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -257,13 +269,14 @@ window.addEventListener("DOMContentLoaded", () => {
                 object[key] = value;
             });
 
-            fetch("server.php", { // если promise попадает на ошибку связанную с http протоколом, то он не выкенет reject, он выполнит resolve
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json"
-                },
-                body: JSON.stringify(object)
-            })
+            // fetch("server.php", { // если promise попадает на ошибку связанную с http протоколом, то он не выкенет reject, он выполнит resolve
+            //     method: "POST",
+            //     headers: {
+            //         "Content-type": "application/json"
+            //     },
+            //     body: JSON.stringify(object)
+            // })
+            postData("server.php", JSON.stringify(object))
             .then(data => data.text())
             .then(data => {
                 console.log(data);
