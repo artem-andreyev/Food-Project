@@ -191,21 +191,28 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    const getResource = async (url) => { // GET на сервер
-        const res = await fetch(url);
+    // const getResource = async (url) => { // GET запрос на сервер
+    //     const res = await fetch(url);
 
-        if (!res.ok) {
-            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-        }
+    //     if (!res.ok) {
+    //         throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+    //     }
 
-        return await res.json();
-    };
+    //     return await res.json();
+    // };
 
     // 1 вариант
 
-    getResource("http://localhost:3000/menu")
+    // getResource("http://localhost:3000/menu") // вручную без axios
+    //     .then(data => {
+    //         data.forEach(({img, altimg, title, descr, price}) => {
+    //             new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
+    //         });
+    //     });
+
+    axios.get("http://localhost:3000/menu") // axios возвращает более подробные ответ
         .then(data => {
-            data.forEach(({img, altimg, title, descr, price}) => {
+            data.data.forEach(({img, altimg, title, descr, price}) => { // Обращаемся именно к тем данным которые получилии, а не к общему обьекту (data.data)
                 new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
             });
         });
