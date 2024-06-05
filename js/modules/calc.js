@@ -110,4 +110,4 @@ function calc() {
         getDynamicInformation("#age");
 }
 
-module.exports = slider;
+export default calc;
