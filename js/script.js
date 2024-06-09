@@ -1,3 +1,8 @@
+require("es6-promise").polyfill(); // Ручное добавление полифиллов (необходимо скачать заранее(в этом случае es6-promise))
+import "nodelist-foreach-polyfill"; // Этот пакет существует в node_modules (так можно импортировать)
+
+// import "slick-slider"; // Импорт слайдера (нужно скачать с npm(слайдер можно найти в интернете))
+
 import tabs from "./modules/tabs";
 import modal from "./modules/modal";
 import timer from "./modules/timer";
